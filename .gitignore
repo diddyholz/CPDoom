@@ -1,0 +1,12 @@
+# Build items
+*.o
+*.a
+tags
+.vscode
+obj
+dist
+*.hhk
+*.bin
+
+# OS items
+.DS_Store
