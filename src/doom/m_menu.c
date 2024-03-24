@@ -394,6 +394,8 @@ enum
 {
     use,
     fire,
+    wpnext,
+    wpprev,
     actions_end
 } actions_e;
 
@@ -980,6 +982,8 @@ void M_SetControls(int offset, int choice)
 void M_DrawMainMenu(void)
 {
     V_DrawPatchDirect (94,2,0,W_CacheLumpName("M_DOOM",PU_CACHE));
+    M_DrawText(2, 2, true, "Ported by");
+    M_DrawText(2, 10, true, "diddyholz");
 }
 
 

@@ -156,7 +156,7 @@ boolean I_GetKeyEvent(event_t *ev)
         return true;
     }
 
-    if (I_CheckKey(KEY_X, deltaKey2, 'x', ev))
+    if (I_CheckKey(KEY_X, deltaKey2, 'n', ev))
     {
         return true;
     }

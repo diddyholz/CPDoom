@@ -778,30 +778,22 @@ void D_DoomMain (void)
     {
       case retail:
 	sprintf (title,
-		 "                         "
-		 "The Ultimate DOOM Startup v%i.%i"
-		 "                           ",
+		 "The Ultimate DOOM Startup v%i.%i\n",
 		 VERSION/100,VERSION%100);
 	break;
       case shareware:
 	sprintf (title,
-		 "                            "
-		 "DOOM Shareware Startup v%i.%i"
-		 "                           ",
+		 "DOOM Shareware Startup v%i.%i",
 		 VERSION/100,VERSION%100);
 	break;
       case registered:
 	sprintf (title,
-		 "                            "
-		 "DOOM Registered Startup v%i.%i"
-		 "                           ",
+		 "DOOM Registered Startup v%i.%i",
 		 VERSION/100,VERSION%100);
 	break;
       case commercial:
 	sprintf (title,
-		 "                         "
-		 "DOOM 2: Hell on Earth v%i.%i"
-		 "                           ",
+		 "DOOM 2: Hell on Earth v%i.%i",
 		 VERSION/100,VERSION%100);
 	break;
 /*FIXME
@@ -822,9 +814,7 @@ void D_DoomMain (void)
 */
       default:
 	sprintf (title,
-		 "                     "
-		 "Public DOOM - v%i.%i"
-		 "                           ",
+		 "Public DOOM - v%i.%i",
 		 VERSION/100,VERSION%100);
 	break;
     }
@@ -1004,20 +994,21 @@ void D_DoomMain (void)
             for (i = 0;i < 23; i++)
             if (W_CheckNumForName(name[i])<0)
                 I_Error("\nThis is not the registered version.");
-        }
+    }
         
         // Iff additonal PWAD files are used, print modified banner
-        if (modifiedgame)
-        {
+    if (modifiedgame)
+    {
         /*m*/printf (
-            "===========================================================================\n"
-            "ATTENTION:  This version of DOOM has been modified.  If you would like to\n"
-            "get a copy of the original game, call 1-800-IDGAMES or see the readme file.\n"
-            "        You will not receive technical support for modified games.\n"
-            "                      press enter to continue\n"
-            "===========================================================================\n"
+            "========================================\n"
+            "  ATTENTION:  This version of DOOM has  \n" 
+            "  been modified.  If you would like to  \n"
+            "  get a copy of the original game, call \n" 
+            "  1-800-IDGAMES or see the readme file. \n"
+            " You will not receive technical support \n" 
+            "          for modified games.           \n"
+            "========================================\n"
             );
-        getchar ();
     }
 	
 
@@ -1027,19 +1018,20 @@ void D_DoomMain (void)
       case shareware:
       case indetermined:
 	printf (
-	    "===========================================================================\n"
-	    "                                Shareware!\n"
-	    "===========================================================================\n"
+	    "========================================\n"
+	    "               Shareware!               \n"
+	    "========================================\n"
 	);
 	break;
       case registered:
       case retail:
       case commercial:
 	printf (
-	    "===========================================================================\n"
-	    "                 Commercial product - do not distribute!\n"
-	    "         Please report software piracy to the SPA: 1-800-388-PIR8\n"
-	    "===========================================================================\n"
+	    "========================================\n"
+	    "Commercial product - do not distribute! \n"
+	    "     Please report software piracy      \n" 
+        "      to the SPA: 1-800-388-PIR8        \n"
+	    "========================================\n"
 	);
 	break;
 	

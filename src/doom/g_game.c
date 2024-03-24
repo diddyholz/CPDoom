@@ -1171,10 +1171,8 @@ void G_DoSaveGame (void)
 	    sprintf (name,SAVEGAMENAME"%d",savegameslot); 
     description = savedescription; 
 	 
-    fprintf (stderr, "G_DoSaveGame.here00\n"); 
     save_p = savebuffer = screens[1]+0x4000; 
 	 
-    fprintf (stderr, "G_DoSaveGame.here01\n"); 
     memcpy (save_p, description, SAVESTRINGSIZE); 
     save_p += SAVESTRINGSIZE; 
     memset (name2,0,sizeof(name2)); 
@@ -1182,11 +1180,9 @@ void G_DoSaveGame (void)
     memcpy (save_p, name2, VERSIONSIZE); 
     save_p += VERSIONSIZE; 
 	 
-    fprintf (stderr, "G_DoSaveGame.here02\n"); 
     *save_p++ = gameskill; 
     *save_p++ = gameepisode; 
     *save_p++ = gamemap; 
-    fprintf (stderr, "G_DoSaveGame.here03\n"); 
     for (i=0 ; i<MAXPLAYERS ; i++) 
 	*save_p++ = playeringame[i]; 
     *save_p++ = leveltime>>16; 
