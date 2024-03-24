@@ -2,7 +2,7 @@
 A doom source port for the Classpad II (fx-CP400).
 
 ## Installation
-Download the [latest .zip file]() and extract it into the root directory of your calculator. Your directory structure should then be as follows:
+Download the [latest .zip file](https://github.com/diddyholz/CPDoom/releases) and extract it into the root directory of your calculator. Your directory structure should then be as follows:
 ```
 ├── run.bin (Hollyhock launcher)
 ├── CPDoom.bin (Main CPDoom executable)
