@@ -34,6 +34,7 @@ rcsid[] = "$Id: w_wad.c,v 1.5 1997/02/03 16:47:57 b1 Exp $";
 #include <fcntl.h>
 #include <sys/stat.h>
 #include <alloca.h>
+#include <stdlib.h>
 #define O_BINARY		0
 
 #include "doomtype.h"

@@ -27,6 +27,7 @@
 static const char
 rcsid[] = "$Id: v_video.c,v 1.5 1997/02/03 22:45:13 b1 Exp $";
 
+#include <stdlib.h>
 
 #include "d_vars.h"
 #include "i_system.h"
@@ -228,28 +229,111 @@ V_DrawPatch
     col = 0; 
     desttop = screens[scrn]+y*SCREENWIDTH+x; 
 	 
-    w = SHORT(patch->width); 
+    w = SHORT(patch->width); 	
 
     for ( ; col<w ; x++, col++, desttop++)
     { 
-	column = (column_t *)((byte *)patch + LONG(patch->colofs[col])); 
+        column = (column_t *)((byte *)patch + LONG(patch->colofs[col])); 
+    
+        // step through the posts in a column 
+        while (column->topdelta != 0xff ) 
+        { 
+            source = (byte *)column + 3; 
+            dest = desttop + column->topdelta*SCREENWIDTH; 
+            count = column->length; 
+                
+            while (count--) 
+            { 
+                *dest = *source++; 
+                dest += SCREENWIDTH; 
+            } 
+            
+            column = (column_t *)(  (byte *)column + column->length 
+                        + 4 ); 
+        } 
+    }			  
+} 
  
-	// step through the posts in a column 
-	while (column->topdelta != 0xff ) 
-	{ 
-	    source = (byte *)column + 3; 
-	    dest = desttop + column->topdelta*SCREENWIDTH; 
-	    count = column->length; 
-			 
-	    while (count--) 
-	    { 
-		*dest = *source++; 
-		dest += SCREENWIDTH; 
-	    } 
-	    column = (column_t *)(  (byte *)column + column->length 
-				    + 4 ); 
-	} 
-    }			 
+
+//
+// V_DrawPatchDoubled
+// Masks a big column based masked pic to the screen. 
+//
+void
+V_DrawPatchBig
+( int		x,
+  int		y,
+  int		scrn,
+  patch_t*	patch ) 
+{ 
+
+    int		count;
+    int		col; 
+    column_t*	column; 
+    byte*	desttop;
+    byte*	dest;
+    byte*	source; 
+    int		w; 
+	 
+    y -= SHORT(patch->topoffset); 
+    x -= SHORT(patch->leftoffset); 
+#ifdef RANGECHECK 
+    if (x<0
+        ||x+SHORT(patch->width * 2) >SCREENWIDTH
+        || y<0
+        || y+SHORT(patch->height * 2)>SCREENHEIGHT 
+        || (unsigned)scrn>4)
+    {
+      fprintf( stderr, "Patch at %d,%d exceeds LFB\n", x,y );
+      // No I_Error abort - what is up with TNT.WAD?
+      fprintf( stderr, "V_DrawPatch: bad patch (ignored)\n");
+      return;
+    }
+#endif 
+ 
+    if (!scrn)
+	    V_MarkRect (x, y, SHORT(patch->width * 2), SHORT(patch->height * 2)); 
+
+    col = 0; 
+    desttop = screens[scrn] + y * SCREENWIDTH + x; 
+	 
+    w = SHORT(patch->width); 
+
+    for (short tmpcol = 0; col < w ; tmpcol++, desttop++)
+    { 
+        column = (column_t *)((byte *)patch + LONG(patch->colofs[col])); 
+    
+        // step through the posts in a column 
+        while (column->topdelta != 0xff) 
+        { 
+            short tmpy = 0;
+
+            source = (byte *)column + 3; 
+            dest = desttop + (column->topdelta * 2) * SCREENWIDTH; 
+            count = column->length * 2; 
+                
+            while (count--) 
+            { 
+                *dest = *source; 
+                dest += SCREENWIDTH;
+
+                if (tmpy % 2)
+                {
+                    source++;
+                }   
+
+                tmpy++;
+            } 
+
+            column = (column_t *)(  (byte *)column + column->length 
+                        + 4 ); 
+        } 
+
+        if (tmpcol % 2)
+        {
+            col++;
+        }
+    }		
 } 
  
 //

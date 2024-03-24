@@ -281,40 +281,43 @@ void P_PlayerThink (player_t* player)
 		
     if (cmd->buttons & BT_CHANGE)
     {
-	// The actual changing of the weapon is done
-	//  when the weapon psprite can do it
-	//  (read: not in the middle of an attack).
-	newweapon = (cmd->buttons&BT_WEAPONMASK)>>BT_WEAPONSHIFT;
+        int change = (cmd->buttons >>BT_WEAPONSHIFT == 1)? 1 : -1;
+        newweapon = (player->readyweapon + change) & 0x7;
+        
+        while (!player->weaponowned[newweapon])
+        {
+            newweapon = (newweapon + change) & 0x7;
+        }      
 	
-	if (newweapon == wp_fist
-	    && player->weaponowned[wp_chainsaw]
-	    && !(player->readyweapon == wp_chainsaw
-		 && player->powers[pw_strength]))
-	{
-	    newweapon = wp_chainsaw;
-	}
-	
-	if ( (gamemode == commercial)
-	    && newweapon == wp_shotgun 
-	    && player->weaponowned[wp_supershotgun]
-	    && player->readyweapon != wp_supershotgun)
-	{
-	    newweapon = wp_supershotgun;
-	}
-	
+        if (newweapon == wp_fist
+            && player->weaponowned[wp_chainsaw]
+            && !(player->readyweapon == wp_chainsaw
+            && player->powers[pw_strength]))
+        {
+            newweapon = wp_chainsaw;
+        }
+        
+        if ( (gamemode == commercial)
+            && newweapon == wp_shotgun 
+            && player->weaponowned[wp_supershotgun]
+            && player->readyweapon != wp_supershotgun)
+        {
+            newweapon = wp_supershotgun;
+        }
+        
 
-	if (player->weaponowned[newweapon]
-	    && newweapon != player->readyweapon)
-	{
-	    // Do not go to plasma or BFG in shareware,
-	    //  even if cheated.
-	    if ((newweapon != wp_plasma
-		 && newweapon != wp_bfg)
-		|| (gamemode != shareware) )
-	    {
-		player->pendingweapon = newweapon;
-	    }
-	}
+        if (player->weaponowned[newweapon]
+            && newweapon != player->readyweapon)
+        {
+            // Do not go to plasma or BFG in shareware,
+            //  even if cheated.
+            if ((newweapon != wp_plasma
+            && newweapon != wp_bfg)
+            || (gamemode != shareware) )
+            {
+            player->pendingweapon = newweapon;
+            }
+        }
     }
     
     // check for use

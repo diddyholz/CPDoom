@@ -64,6 +64,13 @@ V_DrawPatch
   patch_t*	patch);
 
 void
+V_DrawPatchBig
+( int		x,
+  int		y,
+  int		scrn,
+  patch_t*	patch);
+
+void
 V_DrawPatchDirect
 ( int		x,
   int		y,

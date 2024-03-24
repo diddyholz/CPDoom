@@ -87,7 +87,7 @@ typedef struct
     // 0 = no cursor here, 1 = ok, 2 = arrows ok
     short	status;
     
-    char	name[10];
+    char	name[17];
     
     // choice = menu item #.
     // if status = 2,
@@ -125,10 +125,16 @@ void M_ChooseSkill(int choice);
 void M_LoadGame(int choice);
 void M_SaveGame(int choice);
 void M_Options(int choice);
+void M_Controls(int choice);
+void M_Movement(int choice);
+void M_Actions(int choice);
 void M_EndGame(int choice);
 void M_ReadThis(int choice);
 void M_ReadThis2(int choice);
 void M_QuitDOOM(int choice);
+
+void M_SetMovement(int choice);
+void M_SetActions(int choice);
 
 void M_ChangeMessages(int choice);
 void M_ChangeSensitivity(int choice);
@@ -152,16 +158,21 @@ void M_DrawReadThis2(void);
 void M_DrawNewGame(void);
 void M_DrawEpisode(void);
 void M_DrawOptions(void);
+void M_DrawControls(void);
+void M_DrawMovement(void);
+void M_DrawActions(void);
 void M_DrawSound(void);
 void M_DrawLoad(void);
 void M_DrawSave(void);
 
+void M_SetControls(int offset, int choice);
 void M_DrawSaveLoadBorder(int x,int y);
 void M_SetupNextMenu(menu_t *menudef);
 void M_DrawThermo(int x,int y,int thermWidth,int thermDot);
 void M_DrawEmptyCell(menu_t *menu,int item);
 void M_DrawSelCell(menu_t *menu,int item);
 void M_WriteText(int x, int y, char *string);
+void M_WriteTextBig(int x, int y, char *string);
 int  M_StringWidth(char *string);
 int  M_StringHeight(char *string);
 void M_StartControlPanel(void);
@@ -284,8 +295,9 @@ enum
     option_empty1,
     mousesens,
     option_empty2,
-    soundvol,
-    opt_end
+    // soundvol,
+    controls,
+    opt_end,
 } options_e;
 
 menuitem_t OptionsMenu[]=
@@ -297,7 +309,8 @@ menuitem_t OptionsMenu[]=
     {-1,"",0},
     {2,"M_MSENS",	M_ChangeSensitivity,'m'},
     {-1,"",0},
-    {1,"M_SVOL",	M_Sound,'s'}
+    // {1,"M_SVOL",	M_Sound,'s'},
+    {1,"#Controls",	M_Controls, 0},
 };
 
 menu_t  OptionsDef =
@@ -306,6 +319,98 @@ menu_t  OptionsDef =
     &MainDef,
     OptionsMenu,
     M_DrawOptions,
+    60,37,
+    0
+};
+
+//
+// CONTROLS MENU
+//
+enum
+{
+    movement,
+    actions,
+    ctrl_end
+} controls_e;
+
+menuitem_t ControlsMenu[] =
+{
+    {1,"#Movement",	M_Movement, 0},
+    {1,"#Actions",	M_Actions, 0},
+};
+
+menu_t  ControlsDef =
+{
+    ctrl_end,
+    &OptionsDef,
+    ControlsMenu,
+    M_DrawControls,
+    60,37,
+    0
+};
+
+int *selectedaction = 0;
+
+//
+// MOVEMENT MENU
+//
+enum
+{
+    forward,
+    backward,
+    tright,
+    tleft,
+    sright,
+    sleft,
+    sprint,
+    movement_end
+} movement_e;
+
+menuitem_t MovementMenu[] =
+{
+    {1,"#Forward",	M_SetMovement, 0},
+    {1,"#Backward",	M_SetMovement, 0},
+    {1,"#Turn Right", M_SetMovement, 0},
+    {1,"#Turn Left",	M_SetMovement, 0},
+    {1,"#Strafe Right",	M_SetMovement, 0},
+    {1,"#Strafe Left",	M_SetMovement, 0},
+    {1,"#Sprint",	M_SetMovement, 0}
+};
+
+menu_t  MovementDef =
+{
+    movement_end,
+    &ControlsDef,
+    MovementMenu,
+    M_DrawMovement,
+    60,37,
+    0
+};
+
+//
+// ACTIONS MENU
+//
+enum
+{
+    use,
+    fire,
+    actions_end
+} actions_e;
+
+menuitem_t ActionsMenu[] =
+{
+    {1,"#Fire",	M_SetActions, 0},
+    {1,"#Use",	M_SetActions, 0},
+    {1,"#Next Weapon",	M_SetActions, 0},
+    {1,"#Previous Weapon",	M_SetActions, 0},
+};
+
+menu_t  ActionsDef =
+{
+    actions_end,
+    &ControlsDef,
+    ActionsMenu,
+    M_DrawActions,
     60,37,
     0
 };
@@ -787,8 +892,87 @@ void M_MusicVol(int choice)
     S_SetMusicVolume(snd_MusicVolume /* *8 */);
 }
 
+//
+// M_Controls
+//
+void M_Controls(int choice)
+{
+    M_SetupNextMenu(&ControlsDef);
+}
 
+//
+// M_DrawControls
+//
+void M_DrawControls(void)
+{
+    M_WriteTextBig(94, 15, "Controls");
+}
 
+//
+// M_Movement
+//
+void M_Movement(int choice)
+{
+    M_SetupNextMenu(&MovementDef);
+}
+
+//
+// M_DrawMovement
+//
+void M_DrawMovement(void)
+{
+    M_WriteTextBig(94, 15, "Movement");
+}
+
+//
+// M_SetMovement
+//
+void M_SetMovement(int choice)
+{
+    M_SetControls(DEFAULTS_MOVEMENTKEY_START, choice);
+}
+
+//
+// M_Actions
+//
+void M_Actions(int choice)
+{
+    M_SetupNextMenu(&ActionsDef);
+}
+
+//
+// M_DrawActions
+//
+void M_DrawActions(void)
+{
+    M_WriteTextBig(105, 15, "Actions");
+}
+
+//
+// M_SetActions
+//
+void M_SetActions(int choice)
+{
+    M_SetControls(DEFAULTS_ACTIONSKEY_START, choice);
+}
+
+//
+// M_KeySelect
+//
+void M_KeySelect(int choice)
+{
+    *selectedaction = choice;
+    M_StopMessage();
+}
+
+//
+// M_SetControls
+//
+void M_SetControls(int offset, int choice)
+{
+    selectedaction = defaults[offset + choice].location; 
+    M_StartMessage(KEYSELECT, M_KeySelect, false);
+}
 
 //
 // M_DrawMainMenu
@@ -1252,28 +1436,80 @@ M_WriteText
 	
     while(1)
     {
-	c = *ch++;
-	if (!c)
-	    break;
-	if (c == '\n')
-	{
-	    cx = x;
-	    cy += 12;
-	    continue;
-	}
+        c = *ch++;
+        if (!c)
+            break;
+        if (c == '\n')
+        {
+            cx = x;
+            cy += 12;
+            continue;
+        }
+            
+        c = toupper(c) - HU_FONTSTART;
+        if (c < 0 || c>= HU_FONTSIZE)
+        {
+            cx += 4;
+            continue;
+        }
+            
+        w = SHORT (hu_font[c]->width);
+        if (cx+w > SCREENWIDTH)
+            break;
+
+        V_DrawPatchDirect(cx, cy, 0, hu_font[c]);
+
+        cx+=w;
+    }
+}
+
+
+//
+//      Write a string using the hu_font
+//
+void
+M_WriteTextBig
+( int		x,
+  int		y,
+  char*		string)
+{
+    int		w;
+    char*	ch;
+    int		c;
+    int		cx;
+    int		cy;
 		
-	c = toupper(c) - HU_FONTSTART;
-	if (c < 0 || c>= HU_FONTSIZE)
-	{
-	    cx += 4;
-	    continue;
-	}
-		
-	w = SHORT (hu_font[c]->width);
-	if (cx+w > SCREENWIDTH)
-	    break;
-	V_DrawPatchDirect(cx, cy, 0, hu_font[c]);
-	cx+=w;
+
+    ch = string;
+    cx = x;
+    cy = y;
+	
+    while(1)
+    {
+        c = *ch++;
+        if (!c)
+            break;
+        if (c == '\n')
+        {
+            cx = x;
+            cy += 24;
+            continue;
+        }
+            
+        c = toupper(c) - HU_FONTSTART;
+        if (c < 0 || c>= HU_FONTSIZE)
+        {
+            cx += 8;
+            continue;
+        }
+            
+        w = SHORT (hu_font[c]->width * 2);
+        if (cx+w > SCREENWIDTH)
+            break;
+
+        V_DrawPatchBig(cx, cy, 0, hu_font[c]);
+
+        cx+=w;
     }
 }
 
@@ -1443,7 +1679,7 @@ boolean M_Responder (event_t* ev)
 	if (messageRoutine)
 	    messageRoutine(ch);
 			
-	menuactive = false;
+	// menuactive = false;
 	S_StartSound(NULL,sfx_swtchx);
 	return true;
     }
@@ -1459,20 +1695,6 @@ boolean M_Responder (event_t* ev)
     if (!menuactive)
 	switch(ch)
 	{
-	  case KEY_MINUS:         // Screen size down
-	    if (automapactive || chat_on)
-		return false;
-	    M_SizeDisplay(0);
-	    // S_StartSound(NULL,sfx_stnmov);
-	    return true;
-				
-	  case KEY_EQUALS:        // Screen size up
-	    if (automapactive || chat_on)
-		return false;
-	    M_SizeDisplay(1);
-	    // S_StartSound(NULL,sfx_stnmov);
-	    return true;
-				
 	  case KEY_F1:            // Help key
 	    M_StartControlPanel ();
 
@@ -1731,16 +1953,26 @@ void M_Drawer (void)
 
     for (i=0;i<max;i++)
     {
-	if (currentMenu->menuitems[i].name[0])
-	    V_DrawPatchDirect (x,y,0,
-			       W_CacheLumpName(currentMenu->menuitems[i].name ,PU_CACHE));
-	y += LINEHEIGHT;
+        if (currentMenu->menuitems[i].name[0])
+        {
+            if (currentMenu->menuitems[i].name[0] == '#')
+            {
+                M_WriteTextBig(x, y, currentMenu->menuitems[i].name + 1);
+            }
+            else 
+            {
+                V_DrawPatchDirect (x, y, 0,
+                        W_CacheLumpName(currentMenu->menuitems[i].name, PU_CACHE));
+            }
+        }
+	    
+        y += LINEHEIGHT;
     }
 
     
     // DRAW SKULL
     V_DrawPatchDirect(x + SKULLXOFF,currentMenu->y - 5 + itemOn*LINEHEIGHT, 0,
-		      W_CacheLumpName(skullName[whichSkull],PU_CACHE));
+		    W_CacheLumpName(skullName[whichSkull],PU_CACHE));
 
 }
 

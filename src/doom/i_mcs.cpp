@@ -36,7 +36,6 @@ I_McsWrite(const char *name,
     size = align_val(size, 4);
 
     int ret = MCS_SetVariable(MCS_DIRECTORY, name, VARTYPE_STR, size, (void *)data);
-    printf("I_McsWrite.ret: %d\n", ret);
 
     if (ret)
     {

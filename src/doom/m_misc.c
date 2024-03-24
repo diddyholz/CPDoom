@@ -125,8 +125,6 @@ M_WriteFile
         return false;
     }
 
-    printf("HERE\n");
-
     return true;
 }
 
@@ -170,6 +168,7 @@ void M_SaveDefaults (void)
     int		i;
     int		v;
     char *configstr = malloc(CONFIG_STR_LEN);
+    memset(configstr, 0, CONFIG_STR_LEN);
 
     if (!configstr)
 	    return; // can't write the file, but don't complain
@@ -184,15 +183,17 @@ void M_SaveDefaults (void)
             && defaults[i].defaultvalue < 0xfff)
         {
             v = *defaults[i].location;
-            sprintf (line,"%s\t\t%i\n",defaults[i].name,v);
+            sprintf (line,"%s %i\n",defaults[i].name,v);
         } else {
-            sprintf (line,"%s\t\t\"%s\"\n",defaults[i].name,
+            sprintf (line,"%s \"%s\"\n",defaults[i].name,
                 * (char **) (defaults[i].location));
         }
 
         strcat (configstr, line);
     }
 
+    I_McsInit();
+    I_McsWrite(defaultfile, configstr, CONFIG_STR_LEN);
     free (configstr);
 }
 

@@ -228,14 +228,17 @@ void G_BuildTiccmd (ticcmd_t* cmd)
 	dclicks = 0;                   
     } 
 
-    // chainsaw overrides 
-    for (i=0 ; i<NUMWEAPONS-1 ; i++)        
-	if (gamekeydown['1'+i]) 
-	{ 
-	    cmd->buttons |= BT_CHANGE; 
-	    cmd->buttons |= i<<BT_WEAPONSHIFT; 
-	    break; 
-	}
+    // weapons
+    if (gamekeydown[key_wpnext])
+    {
+        cmd->buttons |= BT_CHANGE;
+        cmd->buttons |= 1 <<BT_WEAPONSHIFT;
+    }
+    else if (gamekeydown[key_wpprev])
+    {
+        cmd->buttons |= BT_CHANGE;
+        cmd->buttons |= 2 <<BT_WEAPONSHIFT;
+    }
     
     // mouse
     if (mousebuttons[mousebforward]) 
@@ -1475,7 +1478,7 @@ void G_DoPlayDemo (void)
     demobuffer = demo_p = W_CacheLumpName (defdemoname, PU_STATIC); 
     if ( *demo_p++ != VERSION)
     {
-      fprintf( stderr, "Demo is from a different game version!\n");
+    //   fprintf( stderr, "Demo is from a different game version!\n");
       gameaction = ga_nothing;
       return;
     }

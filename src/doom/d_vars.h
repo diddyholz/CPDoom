@@ -37,6 +37,9 @@
 #define MAXVISPLANES	128
 #define MAXOPENINGS	SCREENWIDTH*64
 
+#define DEFAULTS_MOVEMENTKEY_START 13
+#define DEFAULTS_ACTIONSKEY_START  21
+
 // A struct that holds all global, uninitialized doom variables, 
 // that would normaly go into the .bss section.
 // I do not have more fixed RAM locations to spare, so I will just relocate every global variable
@@ -249,6 +252,8 @@ typedef struct
         int		key_straferight; 
         int             key_fire;
         int		key_use;
+        int		key_wpnext;
+        int		key_wpprev;
         int		key_strafe;
         int		key_speed; 
         
@@ -396,7 +401,7 @@ typedef struct
     {
         int		usemouse;
         int		usejoystick;
-        default_t	defaults[27];
+        default_t	defaults[39];
         int	numdefaults;
         char*	defaultfile;
     } m_misc;
@@ -1390,6 +1395,8 @@ void D_VarsCleanup();
 #define mousebfire   VAR_REPLACE(g_game, mousebfire)
 #define joybfire   VAR_REPLACE(g_game, joybfire)
 #define key_use   VAR_REPLACE(g_game, key_use)
+#define key_wpnext   VAR_REPLACE(g_game, key_wpnext)
+#define key_wpprev   VAR_REPLACE(g_game, key_wpprev)
 #define joybuse   VAR_REPLACE(g_game, joybuse)
 #define bodyqueslot   VAR_REPLACE(g_game, bodyqueslot)
 #define bodyque   VAR_REPLACE(g_game, bodyque)

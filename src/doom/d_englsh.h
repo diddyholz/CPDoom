@@ -73,6 +73,7 @@
 #define GAMMALVL3	"Gamma correction level 3"
 #define GAMMALVL4	"Gamma correction level 4"
 #define EMPTYSTRING	"empty slot"
+#define KEYSELECT   "Press a key"
 
 //
 //	P_inter.C

@@ -91,10 +91,10 @@ static const char rcsid[] = "$Id: am_map.c,v 1.4 1997/02/03 21:24:33 b1 Exp $";
 #define AM_PANUPKEY	KEY_UPARROW
 #define AM_PANRIGHTKEY	KEY_RIGHTARROW
 #define AM_PANLEFTKEY	KEY_LEFTARROW
-#define AM_ZOOMINKEY	'='
+#define AM_ZOOMINKEY	'+'
 #define AM_ZOOMOUTKEY	'-'
-#define AM_STARTKEY	KEY_TAB
-#define AM_ENDKEY	KEY_TAB
+#define AM_STARTKEY	KEY_RSHIFT
+#define AM_ENDKEY	KEY_RSHIFT
 #define AM_GOBIGKEY	'0'
 #define AM_FOLLOWKEY	'f'
 #define AM_GRIDKEY	'g'
