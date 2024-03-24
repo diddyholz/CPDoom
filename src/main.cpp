@@ -12,9 +12,9 @@ extern "C" {
 }
 
 APP_NAME(APPNAME_STRING)
-APP_DESCRIPTION("Doom port for the ClassPad-II")
+APP_DESCRIPTION("Doom port for the ClassPad II")
 APP_AUTHOR("diddyholz")
-APP_VERSION("0.0.1")
+APP_VERSION("1.0.0")
 
 void Main_SetupDoomArgv(int *argc, char ***argv);
 void Main_SetupDoomEnvVars(void);
