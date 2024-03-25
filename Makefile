@@ -9,7 +9,7 @@ endif
 AS:=sh4-elf-gcc
 AS_FLAGS:=-DAPPNAME_STRING=\"$(APP_NAME)\"
 
-COMMON_FLAGS:=-ffreestanding -fshort-wchar -O2 -m4a-nofpu -DAPPNAME_STRING=\"$(APP_NAME)\"
+COMMON_FLAGS:=-flto -ffreestanding -fshort-wchar -O2 -m4a-nofpu -DAPPNAME_STRING=\"$(APP_NAME)\"
 INCLUDES:=-I $(SDK_DIR)/include/ -I $(SDK_DIR)/newlib/sh4-elf/include
 WARNINGS:=-Wall -Wextra
 
