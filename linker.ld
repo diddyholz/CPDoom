@@ -5,7 +5,7 @@ SECTIONS {
     text_address = 0x8C052800;
     . = text_address;
 	.text : AT(text_address) {
-		*(.text)
+		*(.text*)
 		*(.rodata*)
     }
     
@@ -13,7 +13,7 @@ SECTIONS {
     PROVIDE(actualbssstart = .);
     
 	.bss : {
-		*(.bss)
+		*(.bss*)
         *(COMMON)
 	}
     
@@ -23,31 +23,31 @@ SECTIONS {
 	start_address = 0x8CFE2000;
 	. = start_address;
     .bootstrap.start : AT(start_address) {
-        *(.bootstrap.start)
+        *(.bootstrap.start*)
     }
     
 	info_address = 0x8CFE2010;
 	. = info_address;
 	.hollyhock_name : {
-		*(.hollyhock_name)
+		KEEP(*(.hollyhock_name))
 	}
 	.hollyhock_description : {
-		*(.hollyhock_description)
+		KEEP(*(.hollyhock_description))
 	}
 	.hollyhock_author : {
-		*(.hollyhock_author)
+		KEEP(*(.hollyhock_author))
 	}
 	.hollyhock_version : {
-		*(.hollyhock_version)
+		KEEP(*(.hollyhock_version))
 	}
 
     .bootstrap : {
-        *(.bootstrap.text)
-        *(.bootstrap.data)
+        *(.bootstrap.text*)
+        *(.bootstrap.data*)
     }
 
 	.data : {
-		*(.data)
+		*(.data*)
 	}
     
     _edata = .;
@@ -64,6 +64,6 @@ SECTIONS {
     . = x_mem_addr;
 
     .oc_mem.x : {
-        *(.oc_mem.x.data)
+        *(.oc_mem.x.data*)
     }
 }

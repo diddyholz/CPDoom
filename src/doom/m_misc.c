@@ -24,8 +24,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: m_misc.c,v 1.6 1997/02/03 22:45:10 b1 Exp $";
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -139,7 +139,7 @@ M_ReadFile
 {
     uint32_t size = 0;
 
-    if (I_McsRead(name, buffer, &size))
+    if (I_McsRead(name, (void**)buffer, &size))
     {
         I_Error("Couldn't read MCS variable: %s", name);
     }
@@ -210,7 +210,7 @@ void M_Cleanup (void)
             continue;
         }
 
-        free(*defaults[i].location);
+        free((void*)*defaults[i].location);
     }
 }
 
@@ -249,7 +249,7 @@ void M_LoadDefaults (void)
 	    defaultfile = basedefault;
 
     // read the file in, overriding any set defaults
-    if (I_McsRead(defaultfile, &configstr, &size) < 0)
+    if (I_McsRead(defaultfile, (void**)&configstr, &size) < 0)
     {
         return;
     }

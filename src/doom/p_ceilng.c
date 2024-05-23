@@ -20,8 +20,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: p_ceilng.c,v 1.4 1997/02/03 16:47:53 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: p_ceilng.c,v 1.4 1997/02/03 16:47:53 b1 Exp $";
 
 
 #include "d_vars.h"
@@ -84,6 +84,7 @@ void T_MoveCeiling (ceiling_t* ceiling)
 	      case silentCrushAndRaise:
 		S_StartSound((mobj_t *)&ceiling->sector->soundorg,
 			     sfx_pstop);
+				 __attribute__((fallthrough));
 	      case fastCrushAndRaise:
 	      case crushAndRaise:
 		ceiling->direction = -1;
@@ -121,8 +122,10 @@ void T_MoveCeiling (ceiling_t* ceiling)
 	      case silentCrushAndRaise:
 		S_StartSound((mobj_t *)&ceiling->sector->soundorg,
 			     sfx_pstop);
+		__attribute__((fallthrough));
 	      case crushAndRaise:
 		ceiling->speed = CEILSPEED;
+		__attribute__((fallthrough));
 	      case fastCrushAndRaise:
 		ceiling->direction = 1;
 		break;
@@ -215,6 +218,7 @@ EV_DoCeiling
 	  case crushAndRaise:
 	    ceiling->crush = true;
 	    ceiling->topheight = sec->ceilingheight;
+		__attribute__((fallthrough));
 	  case lowerAndCrush:
 	  case lowerToFloor:
 	    ceiling->bottomheight = sec->floorheight;

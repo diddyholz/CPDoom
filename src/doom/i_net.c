@@ -20,8 +20,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
 #include <stdlib.h>
 #include <string.h>
@@ -48,11 +48,7 @@ rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 // I_InitNetwork
 //
 void I_InitNetwork (void)
-{
-    boolean		trueval = true;
-    int			p;
-    struct hostent*	hostentry;	// host information entry
-	
+{	
     doomcom.netticdup = 1;
 	
     if (M_CheckParm ("-extratic"))

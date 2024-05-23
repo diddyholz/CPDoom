@@ -21,8 +21,8 @@
 //-----------------------------------------------------------------------------
 
 
-static const char
-rcsid[] = "$Id: g_game.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: g_game.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 
 #include <string.h>
 #include <stdlib.h>
@@ -108,10 +108,9 @@ fixed_t		angleturn[3] = {640, 1280, 320};	// + slow turn
  
 int G_CmdChecksum (ticcmd_t* cmd) 
 { 
-    int		i;
     int		sum = 0; 
 	 
-    for (i=0 ; i< sizeof(*cmd)/4 - 1 ; i++) 
+    for (size_t i=0 ; i< sizeof(*cmd)/4 - 1 ; i++) 
 	sum += ((int *)cmd)[i]; 
 		 
     return sum; 
@@ -125,8 +124,7 @@ int G_CmdChecksum (ticcmd_t* cmd)
 // If recording a demo, write it out 
 // 
 void G_BuildTiccmd (ticcmd_t* cmd) 
-{ 
-    int		i; 
+{
     boolean	strafe;
     boolean	bstrafe; 
     int		speed;
@@ -348,9 +346,9 @@ void G_DoLoadLevel (void)
 
     // DOOM determines the sky texture to be used
     // depending on the current episode, and the game version.
-    if ( (gamemode == commercial)
-	 || ( gamemode == pack_tnt )
-	 || ( gamemode == pack_plut ) )
+    if ( (gamemode == (GameMode_t)commercial)
+	 || ( gamemode == (GameMode_t)pack_tnt )
+	 || ( gamemode == (GameMode_t)pack_plut ) )
     {
 	skytexture = R_TextureNumForName ("SKY3");
 	if (gamemap < 12)
@@ -652,12 +650,7 @@ void G_Ticker (void)
 // Called by the game initialization functions.
 //
 void G_InitPlayer (int player) 
-{ 
-    player_t*	p; 
- 
-    // set up the saved info         
-    p = &players[player]; 
-	 
+{ 	 
     // clear everything else to defaults 
     G_PlayerReborn (player); 
 	 
@@ -1050,6 +1043,7 @@ void G_WorldDone (void)
 	  case 31:
 	    if (!secretexit)
 		break;
+        __attribute__((fallthrough));
 	  case 6:
 	  case 11:
 	  case 20:
@@ -1089,21 +1083,20 @@ void G_LoadGame (char* name)
 
 
 void G_DoLoadGame (void) 
-{ 
-    int		length; 
+{
     int		i; 
     int		a,b,c; 
     char	vcheck[VERSIONSIZE]; 
 	 
     gameaction = ga_nothing; 
 	 
-    length = M_ReadFile (savename, &savebuffer); 
+    M_ReadFile (savename, &savebuffer); 
     save_p = savebuffer + SAVESTRINGSIZE;
     
     // skip the description field 
     memset (vcheck,0,sizeof(vcheck)); 
     sprintf (vcheck,"version %i",VERSION); 
-    if (strcmp (save_p, vcheck)) 
+    if (strcmp ((const char *)save_p, vcheck)) 
 	return;				// bad version 
     save_p += VERSIONSIZE; 
 			 

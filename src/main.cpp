@@ -1,4 +1,5 @@
 #include <appdef.hpp>
+#include <initializer_list>
 #include <stdbool.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -48,8 +49,9 @@ int __attribute__((section(".bootstrap.text"))) main(void)
 
 void Main_SetupDoomArgv(int *argc, char ***argv)
 {
+    static char cas_argv0[] = APPNAME_STRING;
     static char *cas_argv[] = {
-        APPNAME_STRING
+        cas_argv0
     };
 
     *argc = sizeof(cas_argv) / sizeof(*cas_argv);

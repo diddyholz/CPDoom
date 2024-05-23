@@ -1,0 +1,8 @@
+include Makefile
+
+AS:=sh4aeb-nano-elf-gcc
+CC:=sh4aeb-nano-elf-gcc
+CXX:=sh4aeb-nano-elf-g++
+LD:=sh4aeb-nano-elf-g++
+READELF:=sh4aeb-nano-elf-readelf
+OBJCOPY:=sh4aeb-nano-elf-objcopy

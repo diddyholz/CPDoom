@@ -21,8 +21,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: wi_stuff.c,v 1.7 1997/02/03 22:45:13 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: wi_stuff.c,v 1.7 1997/02/03 22:45:13 b1 Exp $";
 
 #include <stdio.h>
 
@@ -314,13 +314,6 @@ void WI_slamBackground(void)
 {
     memcpy(screens[0], screens[1], SCREENWIDTH * SCREENHEIGHT);
     V_MarkRect (0, 0, SCREENWIDTH, SCREENHEIGHT);
-}
-
-// The ticker is used to detect keys
-//  because of timing issues in netgames.
-boolean WI_Responder(event_t* ev)
-{
-    return false;
 }
 
 
@@ -884,10 +877,6 @@ void WI_drawDeathmatchStats(void)
     int		x;
     int		y;
     int		w;
-    
-    int		lh;	// line height
-
-    lh = WI_SPACINGY;
 
     WI_slamBackground();
     

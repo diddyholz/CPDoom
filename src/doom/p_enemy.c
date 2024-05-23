@@ -23,8 +23,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: p_enemy.c,v 1.5 1997/02/03 22:45:11 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: p_enemy.c,v 1.5 1997/02/03 22:45:11 b1 Exp $";
 
 #include <stdlib.h>
 
@@ -397,7 +397,7 @@ void P_NewChaseDir (mobj_t*	actor)
 	&& d[2] != DI_NODIR)
     {
 	actor->movedir = diags[((deltay<0)<<1)+(deltax>0)];
-	if (actor->movedir != turnaround && P_TryWalk(actor))
+	if (actor->movedir != (int)turnaround && P_TryWalk(actor))
 	    return;
     }
 
@@ -450,7 +450,7 @@ void P_NewChaseDir (mobj_t*	actor)
 	      tdir<=DI_SOUTHEAST;
 	      tdir++ )
 	{
-	    if (tdir!=turnaround)
+	    if (tdir!=(int)turnaround)
 	    {
 		actor->movedir =tdir;
 		
@@ -465,7 +465,7 @@ void P_NewChaseDir (mobj_t*	actor)
 	      tdir != (DI_EAST-1);
 	      tdir-- )
 	{
-	    if (tdir!=turnaround)
+	    if (tdir!=(int)turnaround)
 	    {
 		actor->movedir =tdir;
 		
@@ -500,11 +500,8 @@ P_LookForPlayers
     int		c;
     int		stop;
     player_t*	player;
-    sector_t*	sector;
     angle_t	an;
     fixed_t	dist;
-		
-    sector = actor->subsector->sector;
 	
     c = 0;
     stop = (actor->lastlook-1)&3;
@@ -1770,7 +1767,7 @@ void A_BabyMetal (mobj_t* mo)
 void
 A_OpenShotgun2
 ( player_t*	player,
-  pspdef_t*	psp )
+  __attribute__((unused)) pspdef_t*	psp )
 {
     S_StartSound (player->mo, sfx_dbopn);
 }
@@ -1778,7 +1775,7 @@ A_OpenShotgun2
 void
 A_LoadShotgun2
 ( player_t*	player,
-  pspdef_t*	psp )
+  __attribute__((unused)) pspdef_t*	psp )
 {
     S_StartSound (player->mo, sfx_dbload);
 }
@@ -1797,7 +1794,7 @@ A_CloseShotgun2
     A_ReFire(player,psp);
 }
 
-void A_BrainAwake (mobj_t* mo)
+void A_BrainAwake (__attribute__((unused)) mobj_t* mo)
 {
     thinker_t*	thinker;
     mobj_t*	m;
@@ -1827,7 +1824,7 @@ void A_BrainAwake (mobj_t* mo)
 }
 
 
-void A_BrainPain (mobj_t*	mo)
+void A_BrainPain (__attribute__((unused)) mobj_t*	mo)
 {
     S_StartSound (NULL,sfx_bospn);
 }
@@ -1880,7 +1877,7 @@ void A_BrainExplode (mobj_t* mo)
 }
 
 
-void A_BrainDie (mobj_t*	mo)
+void A_BrainDie (__attribute__((unused)) mobj_t*	mo)
 {
     G_ExitLevel ();
 }

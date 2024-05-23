@@ -21,8 +21,8 @@
 //-----------------------------------------------------------------------------
 
 
-static const char
-rcsid[] = "$Id: s_sound.c,v 1.6 1997/02/03 22:45:12 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: s_sound.c,v 1.6 1997/02/03 22:45:12 b1 Exp $";
 
 
 
@@ -158,8 +158,8 @@ void S_StopChannel(int cnum);
 //  allocates channel buffer, sets S_sfx lookup.
 //
 void S_Init
-( int		sfxVolume,
-  int		musicVolume )
+( __attribute__((unused)) int		sfxVolume,
+  __attribute__((unused)) int		musicVolume )
 {  
 //   int		i;
 
@@ -252,9 +252,9 @@ void S_Start(void)
 
 void
 S_StartSoundAtVolume
-( void*		origin_p,
-  int		sfx_id,
-  int		volume )
+( __attribute__((unused)) void*		origin_p,
+  __attribute__((unused)) int		sfx_id,
+  __attribute__((unused)) int		volume )
 {
 
 //   int		rc;
@@ -395,8 +395,8 @@ S_StartSoundAtVolume
 
 void
 S_StartSound
-( void*		origin,
-  int		sfx_id )
+( __attribute__((unused)) void*		origin,
+  __attribute__((unused)) int		sfx_id )
 {
 // #ifdef SAWDEBUG
 //     // if (sfx_id == sfx_sawful)
@@ -467,7 +467,7 @@ S_StartSound
 
 
 
-void S_StopSound(void *origin)
+void S_StopSound(__attribute__((unused)) void *origin)
 {
 
     // int cnum;
@@ -515,7 +515,7 @@ void S_ResumeSound(void)
 //
 // Updates music & sounds
 //
-void S_UpdateSounds(void* listener_p)
+void S_UpdateSounds(__attribute__((unused)) void* listener_p)
 {
     // int		audible;
     // int		cnum;
@@ -612,7 +612,7 @@ void S_UpdateSounds(void* listener_p)
 }
 
 
-void S_SetMusicVolume(int volume)
+void S_SetMusicVolume(__attribute__((unused)) int volume)
 {
     // if (volume < 0 || volume > 127)
     // {
@@ -627,7 +627,7 @@ void S_SetMusicVolume(int volume)
 
 
 
-void S_SetSfxVolume(int volume)
+void S_SetSfxVolume(__attribute__((unused)) int volume)
 {
 
     // if (volume < 0 || volume > 127)
@@ -640,15 +640,15 @@ void S_SetSfxVolume(int volume)
 //
 // Starts some music with the music id found in sounds.h.
 //
-void S_StartMusic(int m_id)
+void S_StartMusic(__attribute__((unused)) int m_id)
 {
     // S_ChangeMusic(m_id, false);
 }
 
 void
 S_ChangeMusic
-( int			musicnum,
-  int			looping )
+( __attribute__((unused)) int			musicnum,
+  __attribute__((unused)) int			looping )
 {
     // musicinfo_t*	music;
     // char		namebuf[9];
@@ -704,7 +704,7 @@ void S_StopMusic(void)
 
 
 
-void S_StopChannel(int cnum)
+void S_StopChannel(__attribute__((unused)) int cnum)
 {
 
 //     int		i;
@@ -750,11 +750,11 @@ void S_StopChannel(int cnum)
 //
 int
 S_AdjustSoundParams
-( mobj_t*	listener,
-  mobj_t*	source,
-  int*		vol,
-  int*		sep,
-  int*		pitch )
+( __attribute__((unused)) mobj_t*	listener,
+  __attribute__((unused)) mobj_t*	source,
+  __attribute__((unused)) int*		vol,
+  __attribute__((unused)) int*		sep,
+  __attribute__((unused)) int*		pitch )
 {
     // fixed_t	approx_dist;
     // fixed_t	adx;
@@ -813,7 +813,7 @@ S_AdjustSoundParams
 	//     / S_ATTENUATOR; 
     // }
     
-    // return (*vol > 0);
+    return (*vol > 0);
 }
 
 
@@ -825,8 +825,8 @@ S_AdjustSoundParams
 //
 int
 S_getChannel
-( void*		origin,
-  sfxinfo_t*	sfxinfo )
+( __attribute__((unused)) void*		origin,
+  __attribute__((unused)) sfxinfo_t*	sfxinfo )
 {
     // // channel number to use
     // int		cnum;
@@ -871,6 +871,7 @@ S_getChannel
     // c->origin = origin;
 
     // return cnum;
+    return 0;
 }
 
 

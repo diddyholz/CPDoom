@@ -20,8 +20,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: m_bbox.c,v 1.1 1997/02/03 22:45:10 b1 Exp $";
 
 
 #include <stdlib.h>
@@ -53,12 +53,10 @@ int	mb_used = 6;
 
 void
 I_Tactile
-( int	on,
-  int	off,
-  int	total )
+( __attribute__((unused)) int	on,
+  __attribute__((unused)) int	off,
+  __attribute__((unused)) int	total )
 {
-  // UNUSED.
-  on = off = total = 0;
 }
 
 ticcmd_t*	I_BaseTiccmd(void)

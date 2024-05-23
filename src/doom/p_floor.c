@@ -21,8 +21,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: p_floor.c,v 1.4 1997/02/03 16:47:54 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: p_floor.c,v 1.4 1997/02/03 16:47:54 b1 Exp $";
 
 
 #include "d_vars.h"
@@ -317,6 +317,7 @@ EV_DoFloor
 
 	  case raiseFloorCrush:
 	    floor->crush = true;
+		__attribute__((fallthrough));
 	  case raiseFloor:
 	    floor->direction = 1;
 	    floor->sector = sec;
@@ -468,8 +469,8 @@ EV_BuildStairs
 
     floormove_t*	floor;
     
-    fixed_t		stairsize;
-    fixed_t		speed;
+    fixed_t		stairsize = 0; // Make gcc happy
+    fixed_t		speed = 0; // Make gcc happy
 
     secnum = -1;
     rtn = 0;

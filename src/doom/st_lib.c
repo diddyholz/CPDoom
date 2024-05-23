@@ -22,14 +22,15 @@
 //-----------------------------------------------------------------------------
 
 
-static const char
-rcsid[] = "$Id: st_lib.c,v 1.4 1997/02/03 16:47:56 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: st_lib.c,v 1.4 1997/02/03 16:47:56 b1 Exp $";
 
 #include <ctype.h>
 
 #include "doomdef.h"
 
 #include "d_vars.h"
+#include "doomtype.h"
 #include "z_zone.h"
 #include "v_video.h"
 
@@ -89,7 +90,7 @@ STlib_initNum
 void
 STlib_drawNum
 ( st_number_t*	n,
-  boolean	refresh )
+  __attribute__((unused)) boolean	refresh )
 {
 
     int		numdigits = n->width;
@@ -251,7 +252,7 @@ STlib_initBinIcon
 {
     b->x	= x;
     b->y	= y;
-    b->oldval	= 0;
+    b->oldval	= false;
     b->val	= val;
     b->on	= on;
     b->p	= i;

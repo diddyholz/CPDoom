@@ -22,8 +22,8 @@
 //-----------------------------------------------------------------------------
 
 
-static const char
-rcsid[] = "$Id: w_wad.c,v 1.5 1997/02/03 16:47:57 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: w_wad.c,v 1.5 1997/02/03 16:47:57 b1 Exp $";
 
 
 #include <ctype.h>
@@ -139,7 +139,6 @@ void W_AddFile (char *filename)
 {
     wadinfo_t		header;
     lumpinfo_t*		lump_p;
-    unsigned		i;
     int			handle;
     int			length;
     int			startlump;
@@ -215,7 +214,7 @@ void W_AddFile (char *filename)
 	
     storehandle = reloadname ? -1 : handle;
 	
-    for (i=startlump ; i<numlumps ; i++,lump_p++, fileinfo++)
+    for (int i=startlump ; i<numlumps ; i++,lump_p++, fileinfo++)
     {
         lump_p->handle = storehandle;
         lump_p->position = LONG(fileinfo->filepos);
@@ -242,7 +241,6 @@ void W_Reload (void)
     wadinfo_t		header;
     int			lumpcount;
     lumpinfo_t*		lump_p;
-    unsigned		i;
     int			handle;
     int			length;
 	
@@ -266,7 +264,7 @@ void W_Reload (void)
     // Fill in lumpinfo
     lump_p = &lumpinfo[reloadlump];
 	
-    for (i=reloadlump ;
+    for (int i=reloadlump ;
 	 i<reloadlump+lumpcount ;
 	 i++,lump_p++, fileinfo++)
     {
@@ -303,7 +301,7 @@ void W_InitMultipleFiles (char** filenames)
     numlumps = 0;
 
     // will be realloced as lumps are added
-    lumpinfo = malloc(1);	
+    lumpinfo = malloc(sizeof(*lumpinfo));	
     atexit(W_Cleanup);
 
     for ( ; *filenames ; filenames++)
@@ -484,9 +482,7 @@ W_CacheLumpNum
 ( int		lump,
   int		tag )
 {
-    byte*	ptr;
-
-    if ((unsigned)lump >= numlumps)
+    if ((unsigned)lump >= (unsigned)numlumps)
 	I_Error ("W_CacheLumpNum: %i >= numlumps",lump);
 		
     if (!lumpcache[lump])
@@ -494,7 +490,7 @@ W_CacheLumpNum
 	// read the lump in
 	
 	//printf ("cache miss on lump %i\n",lump);
-	ptr = Z_Malloc (W_LumpLength (lump), tag, &lumpcache[lump]);
+	Z_Malloc (W_LumpLength (lump), tag, &lumpcache[lump]);
 	W_ReadLump (lump, lumpcache[lump]);
     }
     else

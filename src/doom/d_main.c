@@ -25,7 +25,7 @@
 //-----------------------------------------------------------------------------
 
 
-static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
+//static const char rcsid[] = "$Id: d_main.c,v 1.8 1997/02/03 22:45:09 b1 Exp $";
 
 #define	BGCOLOR		7
 #define	FGCOLOR		8
@@ -114,7 +114,7 @@ void D_DoAdvanceDemo (void);
 void D_PostEvent (event_t* ev)
 {
     events[eventhead] = *ev;
-    eventhead = (++eventhead)&(MAXEVENTS-1);
+    eventhead = (eventhead+1)&(MAXEVENTS-1);
 }
 
 
@@ -131,7 +131,7 @@ void D_ProcessEvents (void)
 	 && (W_CheckNumForName("map01")<0) )
       return;
 	
-    for ( ; eventtail != eventhead ; eventtail = (++eventtail)&(MAXEVENTS-1) )
+    for ( ; eventtail != eventhead ; eventtail = (eventtail+1)&(MAXEVENTS-1) )
     {
 	ev = &events[eventtail];
 	if (M_Responder (ev))
@@ -516,7 +516,6 @@ void IdentifyVersion (void)
     char*	plutoniawad;
     char*	tntwad;
 
-    char *home;
     char *doomwaddir;
     doomwaddir = getenv("DOOMWADDIR");
     if (!doomwaddir)
@@ -654,7 +653,6 @@ void IdentifyVersion (void)
     //exit(1);
     //I_Error ("Game mode indeterminate\n");
 
-cleanup:
     free(doom2wad);
     free(doomuwad);
     free(doomwad);
@@ -741,7 +739,7 @@ void D_Cleanup (void)
 {
     if (debugfile)
     {
-        close(debugfile);
+        fclose(debugfile);
     }
     
     for (int i = 0; wadfiles[i]; i++)
@@ -762,7 +760,7 @@ void D_DoomMain (void)
 	
     IdentifyVersion ();
 	
-    setbuf (stdout, NULL);
+    //setbuf (stdout, NULL);
     modifiedgame = false;
 	
     nomonsters = M_CheckParm ("-nomonsters");
