@@ -22,8 +22,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: p_pspr.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: p_pspr.c,v 1.5 1997/02/03 22:45:12 b1 Exp $";
 
 #include "doomdef.h"
 #include "d_vars.h"
@@ -341,7 +341,7 @@ A_WeaponReady
 //
 void A_ReFire
 ( player_t*	player,
-  pspdef_t*	psp )
+  __attribute__((unused)) pspdef_t*	psp )
 {
     
     // check for fire
@@ -364,7 +364,7 @@ void A_ReFire
 void
 A_CheckReload
 ( player_t*	player,
-  pspdef_t*	psp )
+  __attribute__((unused)) pspdef_t*	psp )
 {
     P_CheckAmmo (player);
 #if 0
@@ -447,7 +447,7 @@ A_Raise
 void
 A_GunFlash
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     P_SetMobjState (player->mo, S_PLAY_ATK2);
     P_SetPsprite (player,ps_flash,weaponinfo[player->readyweapon].flashstate);
@@ -466,7 +466,7 @@ A_GunFlash
 void
 A_Punch
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     angle_t	angle;
     int		damage;
@@ -500,7 +500,7 @@ A_Punch
 void
 A_Saw
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     angle_t	angle;
     int		damage;
@@ -526,7 +526,7 @@ A_Saw
 			     linetarget->x, linetarget->y);
     if (angle - player->mo->angle > ANG180)
     {
-	if (angle - player->mo->angle < -ANG90/20)
+	if (angle - player->mo->angle < (typeof(player->mo->angle))-ANG90/20)
 	    player->mo->angle = angle + ANG90/21;
 	else
 	    player->mo->angle -= ANG90/20;
@@ -549,7 +549,7 @@ A_Saw
 void
 A_FireMissile
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
     P_SpawnPlayerMissile (player->mo, MT_ROCKET);
@@ -562,7 +562,7 @@ A_FireMissile
 void
 A_FireBFG
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     player->ammo[weaponinfo[player->readyweapon].ammo] -= BFGCELLS;
     P_SpawnPlayerMissile (player->mo, MT_BFG);
@@ -576,7 +576,7 @@ A_FireBFG
 void
 A_FirePlasma
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     player->ammo[weaponinfo[player->readyweapon].ammo]--;
 
@@ -644,7 +644,7 @@ P_GunShot
 void
 A_FirePistol
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     S_StartSound (player->mo, sfx_pistol);
 
@@ -666,7 +666,7 @@ A_FirePistol
 void
 A_FireShotgun
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     int		i;
 	
@@ -693,7 +693,7 @@ A_FireShotgun
 void
 A_FireShotgun2
 ( player_t*	player,
-  pspdef_t*	psp ) 
+  __attribute__((unused)) pspdef_t*	psp ) 
 {
     int		i;
     angle_t	angle;
@@ -756,17 +756,17 @@ A_FireCGun
 //
 // ?
 //
-void A_Light0 (player_t *player, pspdef_t *psp)
+void A_Light0 (player_t *player, __attribute__((unused)) pspdef_t *psp)
 {
     player->xtralight = 0;
 }
 
-void A_Light1 (player_t *player, pspdef_t *psp)
+void A_Light1 (player_t *player, __attribute__((unused)) pspdef_t *psp)
 {
     player->xtralight = 1;
 }
 
-void A_Light2 (player_t *player, pspdef_t *psp)
+void A_Light2 (player_t *player, __attribute__((unused)) pspdef_t *psp)
 {
     player->xtralight = 2;
 }
@@ -815,7 +815,7 @@ void A_BFGSpray (mobj_t* mo)
 void
 A_BFGsound
 ( player_t*	player,
-  pspdef_t*	psp )
+  __attribute__((unused)) pspdef_t*	psp )
 {
     S_StartSound (player->mo, sfx_bfg);
 }

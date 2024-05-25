@@ -22,8 +22,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: p_tick.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: p_tick.c,v 1.4 1997/02/03 16:47:55 b1 Exp $";
 
 #include "d_vars.h"
 #include "z_zone.h"
@@ -83,7 +83,7 @@ void P_RemoveThinker (thinker_t* thinker)
 // P_AllocateThinker
 // Allocates memory and adds a new thinker at the end of the list.
 //
-void P_AllocateThinker (thinker_t*	thinker)
+void P_AllocateThinker (__attribute__((unused)) thinker_t*	thinker)
 {
 }
 

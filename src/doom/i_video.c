@@ -55,12 +55,6 @@
 	(b & 0x1F) \
 )
 
-// Blocky mode,
-// replace each 320x200 pixel with multiply*multiply pixels.
-// According to Dave Taylor, it still is a bonehead thing
-// to use ....
-static int	multiply=1;
-
 uint16_t line[LINE_SIZE] __attribute__((section(".oc_mem.x.data")));
 
 void I_ShutdownGraphics(void)
@@ -76,8 +70,6 @@ void I_StartFrame (void)
 
 }
 
-static int	lastmousex = 0;
-static int	lastmousey = 0;
 boolean		mousemoved = false;
 
 

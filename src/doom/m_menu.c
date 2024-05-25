@@ -22,8 +22,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: m_menu.c,v 1.7 1997/02/03 22:45:10 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: m_menu.c,v 1.7 1997/02/03 22:45:10 b1 Exp $";
 
 #include <unistd.h>
 #include <sys/types.h>
@@ -638,7 +638,7 @@ void M_LoadSelect(int choice)
 //
 // Selected from DOOM menu
 //
-void M_LoadGame (int choice)
+void M_LoadGame (__attribute__((unused)) int choice)
 {
     if (netgame)
     {
@@ -703,7 +703,7 @@ void M_SaveSelect(int choice)
 //
 // Selected from DOOM menu
 //
-void M_SaveGame (int choice)
+void M_SaveGame (__attribute__((unused)) int choice)
 {
     if (!usergame)
     {
@@ -855,7 +855,7 @@ void M_DrawSound(void)
 		 16,snd_MusicVolume);
 }
 
-void M_Sound(int choice)
+void M_Sound(__attribute__((unused)) int choice)
 {
     M_SetupNextMenu(&SoundDef);
 }
@@ -897,7 +897,7 @@ void M_MusicVol(int choice)
 //
 // M_Controls
 //
-void M_Controls(int choice)
+void M_Controls(__attribute__((unused)) int choice)
 {
     M_SetupNextMenu(&ControlsDef);
 }
@@ -913,7 +913,7 @@ void M_DrawControls(void)
 //
 // M_Movement
 //
-void M_Movement(int choice)
+void M_Movement(__attribute__((unused)) int choice)
 {
     M_SetupNextMenu(&MovementDef);
 }
@@ -937,7 +937,7 @@ void M_SetMovement(int choice)
 //
 // M_Actions
 //
-void M_Actions(int choice)
+void M_Actions(__attribute__((unused)) int choice)
 {
     M_SetupNextMenu(&ActionsDef);
 }
@@ -998,7 +998,7 @@ void M_DrawNewGame(void)
     V_DrawPatchDirect (54,38,0,W_CacheLumpName("M_SKILL",PU_CACHE));
 }
 
-void M_NewGame(int choice)
+void M_NewGame(__attribute__((unused)) int choice)
 {
     if (netgame && !demoplayback)
     {
@@ -1028,7 +1028,7 @@ void M_VerifyNightmare(int ch)
     if (ch != 'y')
 	return;
 		
-    G_DeferedInitNew(nightmare,epi+1,1);
+    G_DeferedInitNew((skill_t)nightmare,epi+1,1);
     M_ClearMenus ();
 }
 
@@ -1093,7 +1093,7 @@ void M_DrawOptions(void)
 		 9,screenSize);
 }
 
-void M_Options(int choice)
+void M_Options(__attribute__((unused)) int choice)
 {
     M_SetupNextMenu(&OptionsDef);
 }
@@ -1103,10 +1103,8 @@ void M_Options(int choice)
 //
 //      Toggle messages on/off
 //
-void M_ChangeMessages(int choice)
+void M_ChangeMessages(__attribute__((unused)) int choice)
 {
-    // warning: unused parameter `int choice'
-    choice = 0;
     showMessages = 1 - showMessages;
 	
     if (!showMessages)
@@ -1131,9 +1129,8 @@ void M_EndGameResponse(int ch)
     D_StartTitle ();
 }
 
-void M_EndGame(int choice)
+void M_EndGame(__attribute__((unused)) int choice)
 {
-    choice = 0;
     if (!usergame)
     {
 	S_StartSound(NULL,sfx_oof);
@@ -1155,21 +1152,18 @@ void M_EndGame(int choice)
 //
 // M_ReadThis
 //
-void M_ReadThis(int choice)
+void M_ReadThis(__attribute__((unused)) int choice)
 {
-    choice = 0;
     M_SetupNextMenu(&ReadDef1);
 }
 
-void M_ReadThis2(int choice)
+void M_ReadThis2(__attribute__((unused)) int choice)
 {
-    choice = 0;
     M_SetupNextMenu(&ReadDef2);
 }
 
-void M_FinishReadThis(int choice)
+void M_FinishReadThis(__attribute__((unused)) int choice)
 {
-    choice = 0;
     M_SetupNextMenu(&MainDef);
 }
 
@@ -1223,7 +1217,7 @@ void M_QuitResponse(int ch)
 
 
 
-void M_QuitDOOM(int choice)
+void M_QuitDOOM(__attribute__((unused)) int choice)
 {
   // We pick index 0 which is language sensitive,
   //  or one at random, between 1 and maximum number.
@@ -1256,7 +1250,7 @@ void M_ChangeSensitivity(int choice)
 
 
 
-void M_ChangeDetail(int choice)
+void M_ChangeDetail(__attribute__((unused)) int choice)
 {
     choice = 0;
     detailLevel = 1 - detailLevel;
@@ -1382,11 +1376,10 @@ void M_StopMessage(void)
 //
 int M_StringWidth(char* string)
 {
-    int             i;
     int             w = 0;
     int             c;
 	
-    for (i = 0;i < strlen(string);i++)
+    for (size_t i = 0;i < strlen(string);i++)
     {
 	c = toupper(string[i]) - HU_FONTSTART;
 	if (c < 0 || c >= HU_FONTSIZE)
@@ -1405,12 +1398,11 @@ int M_StringWidth(char* string)
 //
 int M_StringHeight(char* string)
 {
-    int             i;
     int             h;
     int             height = SHORT(hu_font[0]->height);
 	
     h = height;
-    for (i = 0;i < strlen(string);i++)
+    for (size_t i = 0;i < strlen(string);i++)
 	if (string[i] == '\n')
 	    h += height;
 		
@@ -1907,8 +1899,8 @@ void M_Drawer (void)
 {
     static short	x;
     static short	y;
-    short		i;
-    short		max;
+    size_t		i;
+    size_t		max;
     char		string[40];
     int			start;
 

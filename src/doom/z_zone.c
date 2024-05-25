@@ -21,8 +21,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: z_zone.c,v 1.4 1997/02/03 16:47:58 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: z_zone.c,v 1.4 1997/02/03 16:47:58 b1 Exp $";
 
 #include <stdlib.h>
 

@@ -6,24 +6,24 @@ ifndef SDK_DIR
 $(error You need to define the SDK_DIR environment variable, and point it to the sdk/ folder)
 endif
 
-AS:=sh4-elf-gcc
+AS:=sh4aeb-elf-gcc
 AS_FLAGS:=-DAPPNAME_STRING=\"$(APP_NAME)\"
 
-COMMON_FLAGS:=-ffreestanding -fshort-wchar -O2 -m4a-nofpu -DAPPNAME_STRING=\"$(APP_NAME)\"
-INCLUDES:=-I $(SDK_DIR)/include/ -I $(SDK_DIR)/newlib/sh4-elf/include
-WARNINGS:=-Wall -Wextra
+COMMON_FLAGS:=-flto -fno-strict-aliasing -ffast-math -ffunction-sections -fdata-sections -ffreestanding -fshort-wchar -O2 -gdwarf-5 -m4a-nofpu -DAPPNAME_STRING=\"$(APP_NAME)\"
+INCLUDES:=-I $(SDK_DIR)/include/
+WARNINGS:=-Wall -Wextra -Werror -Wno-missing-field-initializers
 
-CC:=sh4-elf-gcc
+CC:=sh4aeb-elf-gcc
 CC_FLAGS:=$(COMMON_FLAGS) $(INCLUDES) $(WARNINGS)
 
-CXX:=sh4-elf-g++
-CXX_FLAGS:=-fno-exceptions -fno-rtti -Wno-write-strings $(COMMON_FLAGS) $(INCLUDES) $(WARNINGS)
+CXX:=sh4aeb-elf-g++
+CXX_FLAGS:=-fno-exceptions -fno-rtti $(COMMON_FLAGS) $(INCLUDES) $(WARNINGS)
 
-LD:=sh4-elf-gcc
-LD_FLAGS:=-nostartfiles -m4a-nofpu -Wno-undef -L$(SDK_DIR)/newlib/sh4-elf/lib/m4-nofpu
+LD:=sh4aeb-elf-g++
+LD_FLAGS:=-m4a-nofpu -Wl,--gc-sections $(COMMON_FLAGS)
 
-READELF:=sh4-elf-readelf
-OBJCOPY:=sh4-elf-objcopy
+READELF:=sh4aeb-elf-readelf
+OBJCOPY:=sh4aeb-elf-objcopy
 
 SOURCEDIR = src
 BUILDDIR = obj
@@ -55,17 +55,18 @@ $(APP_BIN): $(APP_ELF)
 
 $(MAIN_BIN): $(APP_ELF)
 	mkdir -p $(dir $@)
-	$(OBJCOPY) --only-section=.text* --only-section=.rodata* --only-section=.bss* --output-target=binary $(APP_ELF) $@
+	$(OBJCOPY) --only-section=.text* --only-section=.rodata* --only-section=.bss* --set-section-flags .bss*=alloc,load,contents --output-target=binary $(APP_ELF) $@
 
-$(APP_ELF): $(OBJECTS) $(SDK_DIR)/sdk.o linker.ld
+$(APP_ELF): $(OBJECTS) $(SDK_DIR)/libsdk.a linker.ld
 	mkdir -p $(dir $@)
-	$(LD) -T linker.ld -o $@ $(LD_FLAGS) $(OBJECTS) $(SDK_DIR)/sdk.o
+	$(LD) -T linker.ld -Wl,-Map $@.map -o $@ $(LD_FLAGS) $(OBJECTS) -L$(SDK_DIR) -lsdk
+	-@echo "note: -fno-strict-aliasing was used"
 
 # We're not actually building sdk.o, just telling the user they need to do it
 # themselves. Just using the target to trigger an error when the file is
 # required but does not exist.
-$(SDK_DIR)/sdk.o:
-	$(error You need to build the SDK before using it. Run make in the SDK directory, and check the README.md in the SDK directory for more information)
+$(SDK_DIR)/libsdk.a:
+	@echo "ERROR: You need to build the SDK before using it. Run make in the SDK directory, and check the README.md in the SDK directory for more information" 1>&2 && exit 1
 
 $(BUILDDIR)/%.o: %.S
 	mkdir -p $(dir $@)

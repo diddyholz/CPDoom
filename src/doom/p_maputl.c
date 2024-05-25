@@ -24,8 +24,8 @@
 //
 //-----------------------------------------------------------------------------
 
-static const char
-rcsid[] = "$Id: p_maputl.c,v 1.5 1997/02/03 22:45:11 b1 Exp $";
+//static const char
+//rcsid[] = "$Id: p_maputl.c,v 1.5 1997/02/03 22:45:11 b1 Exp $";
 
 
 #include <stdlib.h>
@@ -113,8 +113,8 @@ P_BoxOnLineSide
 ( fixed_t*	tmbox,
   line_t*	ld )
 {
-    int		p1;
-    int		p2;
+    int		p1 = 0; // Make gcc happy
+    int		p2 = 0; // Make gcc happy
 	
     switch (ld->slopetype)
     {

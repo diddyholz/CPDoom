@@ -22,7 +22,7 @@
 //-----------------------------------------------------------------------------
 
 
-static const char rcsid[] = "$Id: f_wipe.c,v 1.2 1997/02/03 22:45:09 b1 Exp $";
+//static const char rcsid[] = "$Id: f_wipe.c,v 1.2 1997/02/03 22:45:09 b1 Exp $";
 
 
 
@@ -70,7 +70,7 @@ int
 wipe_initColorXForm
 ( int	width,
   int	height,
-  int	ticks )
+  __attribute__((unused)) int	ticks )
 {
     memcpy(wipe_scr, wipe_scr_start, width*height);
     return 0;
@@ -124,9 +124,9 @@ wipe_doColorXForm
 
 int
 wipe_exitColorXForm
-( int	width,
-  int	height,
-  int	ticks )
+( __attribute__((unused)) int	width,
+  __attribute__((unused)) int	height,
+  __attribute__((unused)) int	ticks )
 {
     return 0;
 }
@@ -138,7 +138,7 @@ int
 wipe_initMelt
 ( int	width,
   int	height,
-  int	ticks )
+  __attribute__((unused)) int	ticks )
 {
     int i, r;
     
@@ -222,9 +222,9 @@ wipe_doMelt
 
 int
 wipe_exitMelt
-( int	width,
-  int	height,
-  int	ticks )
+( __attribute__((unused)) int	width,
+  __attribute__((unused)) int	height,
+  __attribute__((unused)) int	ticks )
 {
     Z_Free(y);
     return 0;
@@ -232,10 +232,10 @@ wipe_exitMelt
 
 int
 wipe_StartScreen
-( int	x,
-  int	y,
-  int	width,
-  int	height )
+( __attribute__((unused)) int	x,
+  __attribute__((unused)) int	y,
+  __attribute__((unused)) int	width,
+  __attribute__((unused)) int	height )
 {
     wipe_scr_start = screens[2];
     I_ReadScreen(wipe_scr_start);
@@ -258,8 +258,8 @@ wipe_EndScreen
 int
 wipe_ScreenWipe
 ( int	wipeno,
-  int	x,
-  int	y,
+  __attribute__((unused)) int	x,
+  __attribute__((unused)) int	y,
   int	width,
   int	height,
   int	ticks )
